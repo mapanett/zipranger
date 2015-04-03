@@ -14,10 +14,10 @@ instance Show ZipRange where
     show (ZipRange start stop state) = state ++ " => " ++ start ++ ".." ++ stop
 
 addToRanges :: [ZipRange] -> ZC.ZipCode -> [ZipRange]
-addToRanges [] (ZC.ZipCode code state) =  (ZipRange code code state) : []
-addToRanges ranges@((ZipRange startCode endCode rangeState) : rest) (ZC.ZipCode newCode codeState)
-    | rangeState == codeState = (ZipRange startCode newCode rangeState) : rest
-    | otherwise               = (ZipRange newCode newCode codeState) : ranges
+addToRanges [] (ZC.ZipCode code state) = (ZipRange code code state) : []
+addToRanges ranges@((ZipRange startCode endCode rangeState) : rest) (ZC.ZipCode newCode newState)
+    | rangeState == newState = (ZipRange startCode newCode rangeState) : rest
+    | otherwise              = (ZipRange newCode newCode newState) : ranges
 
 buildRange :: [ZC.ZipCode] -> [ZipRange]
 buildRange = (foldl addToRanges []) . sort

@@ -7,5 +7,5 @@ executable zipranger
   main-is:         Main.hs
   hs-source-dirs:  src
   build-depends:
-      base
-    , cassava      >= 0.4     && < 0.5
+      base, bytestring, vector,
+      cassava      >= 0.4     && < 0.5
