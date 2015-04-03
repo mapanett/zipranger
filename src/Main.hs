@@ -4,19 +4,21 @@ import Control.Applicative
 import qualified Data.ByteString.Lazy as BL
 import Data.Csv
 import qualified Data.Vector as V
+import Data.List
+import Data.Foldable
 
-data ZipCode = ZipCode
-    { code   :: !String
-    , state  :: !String
-    }
+import qualified ZipCode as ZC
+import qualified ZipRange as ZR
 
-instance FromNamedRecord ZipCode where
-    parseNamedRecord r = ZipCode <$> r .: "code" <*> r .: "state"
+instance FromNamedRecord ZC.ZipCode where
+    parseNamedRecord r = ZC.ZipCode <$> r .: "code" <*> r .: "state"
+
+processCodes codes = sort (V.toList codes)
 
 main :: IO ()
 main = do
-    csvData <- BL.readFile "zipcode.csv"
+    csvData <- BL.readFile "../zipcode.csv"
     case decodeByName csvData of
         Left err -> putStrLn err
-        Right (_, v) -> V.forM_ v $ \ p ->
-            putStrLn $ code p ++ " => " ++ state p
+        Right (_, v) -> forM_ (processCodes v) $ \ p ->
+            putStrLn $ ZC.code p ++ " => " ++ ZC.state p
