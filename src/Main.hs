@@ -13,7 +13,7 @@ import qualified ZipRange as ZR
 instance FromNamedRecord ZC.ZipCode where
     parseNamedRecord r = ZC.ZipCode <$> r .: "code" <*> r .: "state"
 
-processCodes codes = sort (V.toList codes)
+processCodes = ZR.buildRange . V.toList
 
 main :: IO ()
 main = do
@@ -21,4 +21,4 @@ main = do
     case decodeByName csvData of
         Left err -> putStrLn err
         Right (_, v) -> forM_ (processCodes v) $ \ p ->
-            putStrLn $ ZC.code p ++ " => " ++ ZC.state p
+            putStrLn $ show p
