@@ -5,13 +5,13 @@ import qualified ZipCode as ZC
 
 data ZipRange = ZipRange
     {
-        start :: String,
-        stop  :: String,
+        start :: Int,
+        stop  :: Int,
         state :: String
     } deriving Eq
 
 instance Show ZipRange where
-    show (ZipRange start stop state) = state ++ " => " ++ start ++ ".." ++ stop
+    show (ZipRange start stop state) = state ++ " => " ++ show start ++ ".." ++ show stop
 
 instance Ord ZipRange where
     compare a b = compare (state a) (state b)

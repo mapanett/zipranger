@@ -1,7 +1,7 @@
 module ZipCode where
 
 data ZipCode = ZipCode
-    { code   :: !String
+    { code   :: !Int
     , state  :: !String
     } deriving (Show, Eq)
 
